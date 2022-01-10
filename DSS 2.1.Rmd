@@ -28,9 +28,9 @@ knitr::opts_chunk$set(echo = TRUE,
 
 # Pendahuluan
 
-Jika pada <i>Supervised Machine Learning</i>, data yang digunakan memiliki label dan nantinya sistem mengetahui jawaban atau ouput mana yang benar. Bagaimana jika suatu saat kita dihadapi dengan sebuah data yang tidak memiliki label? Dan tugas kita adalah mencari tahu label yang tepat untuk setiap data yang kita miliki? Jika kita dihadapi terhadap permasalah itu, kita tidak usah khawatir dikarenakan ada <i>Unsupervised Machine Learning</i>. <i>Unsupervised Machine learning</i> adalah sebuah mesin yang melakukan pengolahan data tanpa memerlukan label ataupun jawaban, nantinya <i>unsupervised machine learning</i> bisa melakukan eksplorasi data dan menemukan struktur data didalamnya. 
+Jika pada <i>Supervised Machine Learning</i>, data yang digunakan memiliki label dan nantinya sistem mengetahui jawaban mana yang benar. Bagaimana jika suatu saat kita dihadapi dengan sebuah data yang tidak memiliki label? Dan tugas kita adalah mencari tahu label yang tepat untuk setiap data yang kita miliki? Jika kita dihadapi terhadap permasalah itu, kita tidak usah khawatir dikarenakan ada <i>Unsupervised Machine Learning</i>. <i>Unsupervised Machine learning</i> adalah sebuah mesin yang melakukan pengolahan data tanpa memerlukan label ataupun jawaban, nantinya <i>unsupervised machine learning</i> bisa melakukan eksplorasi data dan menemukan struktur data didalamnya. 
 
-Setiap temuan dari <i>unsupervised Machine learning</i> biasanya akan dibagi lagi kedalam beberapa kelompok berdasarkan kemiripan struktur data, tahapan ini biasanya disebut dengan tahapan <i>clustering</i>. <i>Clustering</i> atau pengelompokan yang baik biasanya data-data yang berada didalamnya memiliki kemiripan yang bisa dibilang hampir identik. Hasil dari pengelompokan itu nantinya yang akan menjadi hasil dari metode <i>machine learning</i> ini
+Setiap temuan dari <i>unsupervised Machine learning</i> biasanya akan dibagi lagi ke dalam beberapa kelompok berdasarkan kemiripan struktur data, tahapan ini biasanya disebut dengan tahapan <i>clustering</i>. <i>Clustering</i> atau pengelompokan yang baik biasanya data-data yang berada didalamnya memiliki kemiripan yang bisa dibilang hampir identik. Hasil dari pengelompokan itu nantinya yang akan menjadi hasil dari metode <i>machine learning</i> ini
 
 ## Stigma
 
@@ -42,7 +42,7 @@ Sesungguhnya <i>unsupervised Machine learning</i> juga bisa digunakan terhadap d
 
 Algoritma Partitioning Around Medoids(PAM) atau bisa disebut K-Medoids adalah sebuah metode pengelompokan non-hierarki yang masih menjadi keluarga dekat dari metode K-Means. Metode PAM atau K-Medoids ini akan mengelompokan sekumpulan <i>n</i> objek menjadi ke beberapa <i>k</i> cluster. Jika metode pengelompokannya seperti itu, apa bedanya dengan metode K-Means kalau begitu? Perbedaanya terdapat pada bagaimana melakukan pengelompokannya.
 
-Pada metode K-Means, penentuan sebuah objek masuk ke sebuah <i>cluster</i> tertentu bedasarkan perhitungan rata-rata jarak ecluidean. Sedangkan cara kerja metode K-Medoids akan diawali dengan penentuan Medoids (sebuah objek yang letaknya terpusat di dalam suatu cluster), penentuan Medoids itu tidak dilakukan hanya sekali, melainkan berulang sampai Medoids itu tidak bisa bergerak lagi. Mengapa tidak hanya sekali, dikarenakan peletakan Medoids belum tentu posisi paling optimal, untuk mendapatkan posisi yang paling optimal nantinya posisi Medoids awal akan dihitung ulang total simpangannya dengan menggunakan rumus berikut di bawah ini.
+Pada metode K-Means, penentuan sebuah objek masuk ke sebuah <i>cluster</i> tertentu berdasarkan perhitungan rata-rata jarak ecluidean. Sedangkan cara kerja metode K-Medoids akan diawali dengan penentuan Medoids (sebuah objek yang letaknya terpusat di dalam suatu cluster), penentuan Medoids itu tidak dilakukan hanya sekali, melainkan berulang sampai Medoids itu tidak bisa bergerak lagi. Mengapa tidak hanya sekali, dikarenakan peletakan Medoids belum tentu posisi paling optimal, untuk mendapatkan posisi yang paling optimal nantinya posisi Medoids awal akan dihitung ulang total simpangannya dengan menggunakan rumus berikut di bawah ini.
 
 $$
 S = b - a  
@@ -87,7 +87,7 @@ diamond <- read.csv("data/diamond.csv",
 head(diamond)
 ```
 
-Data yang akan kita gunakan adalah data karateristik berlian yang baru saja selesai diolah, dari data tersebut nantinya akan coba kita kelompokan untuk membuat beberpa segmentasi produk dari setiap berlian tersebut.
+Data yang akan kita gunakan adalah data karakteristik berlian yang baru saja selesai diolah, dari data tersebut nantinya akan coba kita kelompokan untuk membuat beberapa segmentasi produk dari setiap berlian tersebut.
 
 Berikut penjelasan mengenai kolom-kolom untuk data yang kita gunakan:
 * `carat`: Berat dari berliannya 
@@ -116,9 +116,9 @@ table(diamond$clarity)
 
 Dari hasil yang ditampilkan, kita bisa menarik kesimpulan bahwa, 
 
-* Mayoritas dari hasil berlian yang sudah diolah memiliki potongan dengan hasil menengah keatas karena didominasi dengan hasil potongan dengan kategori <i>very good</i> sampai <i>ideal</i>.
-* Kualitas warna yang dihasilkan juga bisa dibilang cukup merata walaupun lebih condong dengan kualitas warna yang bisa dikategorikan menengah kebawah.
-* Kerjernihan dari batu berlian yang sudah diolah memiliki kerjenihan dengan kualitas menengah kebawah, karena hasilnya paling banyak didominasi dengan kategory <i>SI2</i> sampai <i>VS1</i>.
+* Mayoritas dari hasil berlian yang sudah diolah memiliki potongan dengan hasil menengah ke eatas karena didominasi dengan hasil potongan dengan kategori <i>very good</i> sampai <i>ideal</i>.
+* Kualitas warna yang dihasilkan juga bisa dibilang cukup merata walaupun lebih condong dengan kualitas warna yang bisa dikategorikan menengah ke bawah.
+* Kejernihan dari batu berlian yang sudah diolah memiliki kejernihan dengan kualitas menengah ke bawah, karena hasilnya paling banyak didominasi dengan kategori <i>SI2</i> sampai <i>VS1</i>.
 * Ukuran berlian yang sudah diolah memiliki panjang dan lebar dengan rentan dari 3.7 mm sampai 7.1 mm, sedangkan untuk tingginya memiliki rentan 2.2 mm sampai 4.3 mm.
 
 Sebagai tambahan untuk data dengan tipe numerik kita bisa melakukan visualiasi dengan plot histogram untuk melihat jumlah observasinya.
@@ -129,10 +129,10 @@ diamond %>%
   hist.data.frame()
 ```
 
-Dari hasil visualisasi histogram plot, kita bisa menarik kesimpulan bahwa, masing-masing numerik variabel memiliki rentan yang cukup variatif dan jumlah obervasinya juga tidak merata.
+Dari hasil visualisasi histogram plot, kita bisa menarik kesimpulan bahwa, masing-masing numerik variabel memiliki rentan yang cukup variatif dan jumlah observasinya juga tidak merata.
 
 * Jumlah kadar karat paling banyak dari data kita adalah 0.7 karat.
-* Persentasi kedalaman berlian, paling banyak berada disekitaran 60-65%.
+* Persentase kedalaman berlian, paling banyak berada disekitaran 60-65%.
 * Lebar maksimal dari berlian kita paling banyak berada disekitaran 55-60.
 * Dari hasil berlian yang sudah diolah paling banyak memiliki panjang dan lebar dengan rentan 5.7 - 5.9 mm.
 * Dari hasil berlian yang sudah diolah paling banyak memiliki tinggir dengan rentan 3.5 - 3.7 mm.
@@ -147,7 +147,7 @@ Setelah berkenalan dengan data yang kita gunakan, mari kita coba implementasikan
 
 ## Langkah 1: Perhitungan Jarak 
 
-Dari hasil eksplorasi data, kita mengetahui bahwa total observasi data kita adalah 10,000 baris dan setiap observasi data pastinya memiliki nilai yang berbeda. Agar nantinya hasil dari setiap kelompok terdiri dari data-data yang indentik, kita harus mengetahui jarak antara satu observasi dengan observasi lainnya berdekatan atau tidak.
+Dari hasil eksplorasi data, kita mengetahui bahwa total observasi data kita adalah 10,000 baris dan setiap observasi data pastinya memiliki nilai yang berbeda. Agar nantinya hasil dari setiap kelompok terdiri dari data-data yang identik, kita harus mengetahui jarak antara satu observasi dengan observasi lainnya berdekatan atau tidak.
 
 Pilihan paling populer untuk menghitung jarak adalah <i>Euclidean</i>, namun metode tersebut hanya berlaku untuk data numerik saja, oleh karena itu metode <i>Euclidean</i> tidak berlaku di sini. Ada satu metode yang dapat kita gunakan untuk kasus yang memiliki data campuran (data numerik dan data kategorikal), metode tersebut dinamakan <i><b>Gower Distance</i></b>.
 
@@ -186,7 +186,7 @@ Dari hasil pasangan data di atas, kita bisa melihat bahwa memang data observasi 
 
 ## Langkah 2: Penentuan Nilai Cluster(Kelompok)
 
-Seperti yang sudah disampaikan pada bagian pendahuluan, tujuan dari melakukan <i>clustering</i> adalah menempatkan setiap observasi data yang ada ke beberapa kelompok yang sesuai dengan karakteristiknya atau bedasrkan kedekatan jarak antar setiap observasi. Pada langkah pertama kita sudah memiliki informasi jarak antar setiap observasi, kita akan memanfaatkan informasi tersebut utuk menentukan berapakah kelompok yang paling optimal. Hasil dari jumlah kelompok nantinya akan digunakan untuk menentukan berapa banyak segmentasi produk yang bisa dibuat berdasarkan data hasil olahan berlian.
+Seperti yang sudah disampaikan pada bagian pendahuluan, tujuan dari melakukan <i>clustering</i> adalah menempatkan setiap observasi data yang ada ke beberapa kelompok yang sesuai dengan karakteristiknya atau bedasarkan kedekatan jarak antar setiap observasi. Pada langkah pertama kita sudah memiliki informasi jarak antar setiap observasi, kita akan memanfaatkan informasi tersebut untuk menentukan berapakah kelompok yang paling optimal. Hasil dari jumlah kelompok nantinya akan digunakan untuk menentukan berapa banyak segmentasi produk yang bisa dibuat berdasarkan data hasil olahan berlian.
 
 Terdapat 3 metode yang dapat digunakan untuk menentukan jumlah kelompok yang paling optimum yaitu, <i>Elbow Method, Silhouette Method & Gap Statistic Method</i>. Ketiga metode tersebut dapat kita gunakan dengan menggunakan fungsi `fviz_nbclust()` dari `library(factoextra)`. Pada fungsi tersebut nantinya akan ada 3 parameter yang bisa diisi, yaitu:
 
@@ -273,7 +273,7 @@ pam_fit <- pam(x = diamond_gower,
                k = 2)
 ```
 
-Fungsi di atas akan membantu kita untuk mengelompokan keseluruhan observasi data ke dua kelompok bedasarkan kemiripan setiap observasi terhadap titik pusat atau <i>medoids</i>. Supaya kita bisa mendapatkan intuisi awal bagaimana karakteristik olahan berlian untuk setiap kelompoknya, kita bisa melihat dari tabel di bawah ini.
+Fungsi di atas akan membantu kita untuk mengelompokan keseluruhan observasi data ke dua kelompok berdasarkan kemiripan setiap observasi terhadap titik pusat atau <i>medoids</i>. Supaya kita bisa mendapatkan intuisi awal bagaimana karakteristik olahan berlian untuk setiap kelompoknya, kita bisa melihat dari tabel di bawah ini.
 
 ```{r}
 diamond[pam_fit$medoids, ]
@@ -283,7 +283,7 @@ Seperti yang sudah disampaikan, dengan melihat tabel di atas kita hanya bisa men
 
 ###  Metode Statistik Deskriptif
 
-Tujuan melakukan statistik deskriptif adalah untuk memahami karakteristik masing-masing kelompok, dan dalam kasus ini untuk mengetahui karateristik untuk setiap segmentasi produk hasil olahan berlian.
+Tujuan melakukan statistik deskriptif adalah untuk memahami karakteristik masing-masing kelompok, dan dalam kasus ini untuk mengetahui karakteristik untuk setiap segmentasi produk hasil olahan berlian.
 
 ```{r}
 pam_results <- diamond %>%
@@ -334,13 +334,13 @@ ggplot(aes(x = X, y = Y), data = tsne_data) +
   theme_bw()
 ```
 
-Dari hasil plot di atas, kita bisa melihat bahwa setiap observasi sudah berhasil terbagi menjadi dua kelompok walaupun memang masih ada beberapa obverasi yang tumpang tindih atau berdekatan pada sebuah kelompok yang didominasi oleh kelompok yang berlawanan.
+Dari hasil plot di atas, kita bisa melihat bahwa setiap observasi sudah berhasil terbagi menjadi dua kelompok walaupun memang masih ada beberapa observasi yang tumpang tindih atau berdekatan pada sebuah kelompok yang didominasi oleh kelompok yang berlawanan.
 
 # Kesimpulan
 
-Di sini kita bisa menarik kesimpulan bahwa <i>unsupervised machine learning</i> bisa digunakan untuk melakukan pengelompokan tidak hanyak untuk data numerikal saja melainkan bisa juga digunakan untuk data kategorikal. Walaupun memang ada beberapa pendekatan yang berbeda dalam melakukan pengelompokan terutama metode yang digunakan dalam melakukan perhitungan jarak antara setiap observasi data, akan tetapi secara alur kerja bisa dibilang tidak ada perbedaan sama sekali.
+Di sini kita bisa menarik kesimpulan bahwa <i>unsupervised machine learning</i> bisa digunakan untuk melakukan pengelompokan tidak hanya untuk data numerikal saja melainkan bisa juga digunakan untuk data kategorikal. Walaupun memang ada beberapa pendekatan yang berbeda dalam melakukan pengelompokan terutama metode yang digunakan dalam melakukan perhitungan jarak antara setiap observasi data, akan tetapi secara alur kerja bisa dibilang tidak ada perbedaan sama sekali.
 
-Dalam kasus ini, implementasi dari <i>unsupervised machine learning</i> sangat berguna untuk sebuah perusahaan berlian yang baru berdiri dalam menentukan segmentasi produk karena <i>unsupervised machine learning</i> akan membantu kita dalam memnentukan jumlah segmentasi yang paling optimum dan akan mengelompokan setiap hasil olahan berlian ke setiap kelompok yang memiliki karakteristik yang sama. 
+Dalam kasus ini, implementasi dari <i>unsupervised machine learning</i> sangat berguna untuk sebuah perusahaan berlian yang baru berdiri dalam menentukan segmentasi produk karena <i>unsupervised machine learning</i> akan membantu kita dalam menentukan jumlah segmentasi yang paling optimum dan akan mengelompokan setiap hasil olahan berlian ke setiap kelompok yang memiliki karakteristik yang sama. 
 
 <i>Disclaimer</i>, metode <i>unsupervised machine learning</i> bukanlah jawaban mutlak ketika kita menghadapi data yang tidak berlabel atau ketika kita sedang mencari sebuah karakteristik yang sama dalam setiap observasi data kita. Jika memang dirasa kita tidak mendapatkan jawaban yang memuaskan dari metode <i>unsupervised machine learning</i>, setidaknya kita bisa memanfaatkan metode <i>unsupervised machine learning</i> sebagai intuisi awal dalam menghadapi permasalahan tersebut.
 
