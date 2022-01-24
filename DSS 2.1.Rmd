@@ -24,25 +24,33 @@ knitr::opts_chunk$set(echo = TRUE,
                       fig.width = 12,
                       fig.height = 4,
                       fig.align = "center")
+library(rgl)
+knitr::knit_hooks$set(webgl = hook_webgl)
 ```
 
 # Pendahuluan
 
-Jika pada <i>Supervised Machine Learning</i>, data yang digunakan memiliki label dan nantinya sistem mengetahui jawaban mana yang benar. Bagaimana jika suatu saat kita dihadapi dengan sebuah data yang tidak memiliki label? Dan tugas kita adalah mencari tahu label yang tepat untuk setiap data yang kita miliki? Jika kita dihadapi terhadap permasalah itu, kita tidak usah khawatir dikarenakan ada <i>Unsupervised Machine Learning</i>. <i>Unsupervised Machine learning</i> adalah sebuah mesin yang melakukan pengolahan data tanpa memerlukan label ataupun jawaban, nantinya <i>unsupervised machine learning</i> bisa melakukan eksplorasi data dan menemukan struktur data didalamnya. 
+<i>Clustering</i> adalah salah satu teknik Machine Learning, yang memiliki kemampuan untuk mengelompokkan kumpulan data yang tidak berlabel. Setiap data yang tidak berlabel nantinya akan diklasifikasikan ke dalam kelompok tertentu dengan konsep, titik data yang berada dalam kelompok yang sama harus memiliki sifat atau fitur yang serupa, sedangkan titik data dalam kelompok yang berbeda harus memiliki sifat atau fitur yang sangat berbeda.
 
-Setiap temuan dari <i>unsupervised Machine learning</i> biasanya akan dibagi lagi ke dalam beberapa kelompok berdasarkan kemiripan struktur data, tahapan ini biasanya disebut dengan tahapan <i>clustering</i>. <i>Clustering</i> atau pengelompokan yang baik biasanya data-data yang berada didalamnya memiliki kemiripan yang bisa dibilang hampir identik. Hasil dari pengelompokan itu nantinya yang akan menjadi hasil dari metode <i>machine learning</i> ini
+Dalam ilmu data, kita dapat menggunakan <i>clustering</i> untuk mendapatkan beberapa wawasan berharga dari data kita dengan melihat hasil pengelompokan yang terjadi. Wawasan yang berharga tersebut bisa kita bawa untuk membantu kita dalam menentukan segmentasi market, <i>social netwrok analysis</i>, dan masih banyak lagi. Di luar semua manfaat yang bisa kita dapatkan dari metode <i>clustering</i>, masih ada sebuah stigma yang menempel terhadap metode <i>clustering</i>. Pada artikel ini nantinya akan membahas metode <i>clustering</i> yang dapat digunakan untuk mengatasi stigma yang menempel terhadap metode <i>clustering</i>. 
 
 ## Stigma
 
-Stigma yang menempel pada <i>Unsupervised Machine learning</i> adalah <i>unsupervised machine learning</i> hanya bisa digunakan untuk data-data numerik saja. Hal tersebut mungkin bisa terjadi dikarenakan, banyak sekali implementasi atau contoh dari <i>unsupervised machine learning</i> yang hanya menggunakan data numerik saja, sehingga munculah sebuah stigma tersebut.
+Stigma yang menempel pada <i>clustering</i> adalah <i>clustering</i> hanya bisa digunakan untuk data-data numerik saja. Hal tersebut mungkin bisa terjadi dikarenakan, banyak sekali implementasi atau contoh dari <i>clustering</i> yang hanya menggunakan data numerik saja, sehingga munculah sebuah stigma tersebut.
 
-Sesungguhnya <i>unsupervised Machine learning</i> juga bisa digunakan terhadap data-data kategorikal, dan pada kesempatan kali ini kita akan mencoba menggunakan <i>unsupervised Machine learning</i> untuk mengelompokan data kategorikal dan data numerik. Tipe algoritma yang akan kita gunakan nantinya bernama <b><i>Partitioning Around Medoids</b></i>.
+Sesungguhnya <i>clustering</i> juga bisa digunakan terhadap data-data kategorikal, dan pada kesempatan kali ini kita akan mencoba menggunakan <i>clustering</i> untuk mengelompokan data kategorikal dan data numerik. Tipe algoritma yang akan kita gunakan nantinya bernama <b><i>Partitioning Around Medoids</b></i> dan metode perhitungan jarak yang akan digunakan adalah <i>Gower Distance</i>
 
 ## Partitioning Around Medoids (PAM)/K-Medoids
 
 Algoritma Partitioning Around Medoids(PAM) atau bisa disebut K-Medoids adalah sebuah metode pengelompokan non-hierarki yang masih menjadi keluarga dekat dari metode K-Means. Metode PAM atau K-Medoids ini akan mengelompokan sekumpulan <i>n</i> objek menjadi ke beberapa <i>k</i> cluster. Jika metode pengelompokannya seperti itu, apa bedanya dengan metode K-Means kalau begitu? Perbedaanya terdapat pada bagaimana melakukan pengelompokannya.
 
-Pada metode K-Means, penentuan sebuah objek masuk ke sebuah <i>cluster</i> tertentu berdasarkan perhitungan rata-rata jarak ecluidean. Sedangkan cara kerja metode K-Medoids akan diawali dengan penentuan Medoids (sebuah objek yang letaknya terpusat di dalam suatu cluster), penentuan Medoids itu tidak dilakukan hanya sekali, melainkan berulang sampai Medoids itu tidak bisa bergerak lagi. Mengapa tidak hanya sekali, dikarenakan peletakan Medoids belum tentu posisi paling optimal, untuk mendapatkan posisi yang paling optimal nantinya posisi Medoids awal akan dihitung ulang total simpangannya dengan menggunakan rumus berikut di bawah ini.
+Pada metode K-Means, penentuan sebuah objek masuk ke sebuah <i>cluster</i> tertentu berdasarkan perhitungan rata-rata jarak ecluidean. Sedangkan cara kerja metode K-Medoids akan diawali dengan penentuan Medoids (sebuah objek yang letaknya terpusat di dalam suatu cluster). Dari gambar di bawah, kita dapat melihat bagaimana perbedaan antara metode K-Means & K-Medoids dalam menentukan sebuah objek lebih sesuai untuk masuk ke sebuah cluster tertentu.  
+
+```{r}
+knitr::include_graphics("image/k-means-and-k-medoids.png")
+```
+
+Penentuan Medoids itu tidak dilakukan hanya sekali, melainkan berulang sampai Medoids itu tidak bisa bergerak lagi. Mengapa tidak hanya sekali, dikarenakan peletakan Medoids belum tentu posisi paling optimal. Untuk mendapatkan posisi yang paling optimal nantinya posisi Medoids awal akan dihitung ulang total simpangannya dengan menggunakan rumus berikut di bawah ini.
 
 $$
 S = b - a  
@@ -54,7 +62,11 @@ Dimana:
 
 > Jika S < 0, maka tukar obyek dengan data untuk membentuk sekumpulan k baru sebagai Medoid
 
-Langkah tersebut akan terus diulang sampai nantinya <b>S > 0</b>, yang berarti tidak adanya pergerakan lagi dari Medoid yang dipilih sebagai titik tengah. Dari titik Medoids yang paling optimum itu, akan dicari lagi objek yang menyerupai dari karakteristik Medoids tersebut. 
+Langkah tersebut akan terus diulang sampai nantinya <b>S > 0</b>, yang berarti tidak adanya pergerakan lagi dari Medoid yang dipilih sebagai titik tengah. Dari titik Medoids yang paling optimum itu, akan dicari lagi objek yang menyerupai dari karakteristik Medoids tersebut. Supaya lebih terbayang dengan cara kerja dari metode PAM, kita bisa melihat visualisasi di bawah ini.
+
+```{r}
+knitr::include_graphics("image/K-Medoids_Clustering.gif")
+```
 
 Untuk lebih memahami bagaimana cara kerja PAM, mari kita coba untuk melakukan pengelompokan dengan metode tersebut.
 
@@ -72,6 +84,11 @@ library(factoextra)
 
 ## Clustering Visualization
 library(Rtsne)
+library(rgl)
+
+## Knit
+library(knitr)
+library(rgl)
 ```
 
 # Explorasi Data
@@ -92,7 +109,7 @@ Data yang akan kita gunakan adalah data karakteristik berlian yang baru saja sel
 Berikut penjelasan mengenai kolom-kolom untuk data yang kita gunakan:
 * `carat`: Berat dari berliannya 
 * `cut`: Kualitas dari potongan berliannya (Fair < Good < Very Good < Premium < Ideal)
-* `color`: Warna dari berlian tersebut (J < I < H < G < F < E < D)
+* `color`: Kualitas warna dari berlian tersebut (J < I < H < G < F < E < D)
 * `clarity`: Seberapa jernih berlian tersebut  (I1 < SI2 < SI1 < VS2 < VS1 < VVS2 < VVS1 < IF)
 * `depth`: Persentase dari kedalaman berlian tersebut
 * `table`: Lebar maksimal dari atas berlian 
@@ -300,7 +317,7 @@ pam_results$the_summary[[1]]
 
 Jika dilihat dari hasil di atas, kita bisa menarik kesimpulan bahwa hasil olahan berlian untuk kelompok 1 memiliki karakteristik:
 
-* Dari sudut pandang kualitas, hasil olahan berlian kelompok 1 didominasi dengan kualitas potongan yang sangat baik akan tetapi untuk hasil warna dan kejernihannya kurang baik.
+* Dari sudut pandang kualitas, hasil olahan berlian kelompok 1 didominasi dengan kualitas potongan yang sangat baik akan tetapi untuk kualitas warna dan kejernihannya kurang baik.
 * Dari sudut pandang ukuran, ukuran berlian yang sudah diolah memiliki panjang dan lebar dengan rentan dari 3.7 mm sampai 6.8 mm, sedangkan untuk tingginya memiliki rentan 2.2 mm sampai 4.1 mm.
 
 * <b>Kelompok 2</b>
@@ -335,6 +352,30 @@ ggplot(aes(x = X, y = Y), data = tsne_data) +
 ```
 
 Dari hasil plot di atas, kita bisa melihat bahwa setiap observasi sudah berhasil terbagi menjadi dua kelompok walaupun memang masih ada beberapa observasi yang tumpang tindih atau berdekatan pada sebuah kelompok yang didominasi oleh kelompok yang berlawanan.
+
+Selain menampilkan hasil clusterin dengan menggunakan plot secara 2 dimensi, kita juga dapat menampilkan hasil clustering dengan menggunakan plot 3 dimensi.
+
+```{r}
+set.seed(123)
+
+tsne_obj_3d <- Rtsne(X = diamond_gower, 
+                  is_distance = TRUE,
+                  dims = 3)
+
+tsne_data_3d <- tsne_obj_3d$Y %>%
+  data.frame() %>%
+  setNames(c("X", "Y", "Z")) %>%
+  mutate(cluster = factor(pam_fit$clustering))
+
+plot3d(tsne_data_3d, 
+       col=factor(pam_fit$clustering))
+legend3d("topright", 
+         legend = unique(pam_fit$clustering), 
+         pch = 16, 
+         col = unique(pam_fit$clustering), 
+         cex=1, 
+         inset=c(0.02))
+```
 
 # Kesimpulan
 
