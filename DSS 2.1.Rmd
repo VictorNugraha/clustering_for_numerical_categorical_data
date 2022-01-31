@@ -25,7 +25,8 @@ knitr::opts_chunk$set(echo = TRUE,
                       fig.height = 4,
                       fig.align = "center")
 library(rgl)
-knitr::knit_hooks$set(webgl = hook_webgl)
+library(rglwidget)
+knitr::knit_hooks$set(rgl = hook_rgl, webgl = hook_webgl)
 ```
 
 # Pendahuluan
@@ -85,6 +86,7 @@ library(factoextra)
 ## Clustering Visualization
 library(Rtsne)
 library(rgl)
+library(plotly)
 
 ## Knit
 library(knitr)
@@ -353,7 +355,7 @@ ggplot(aes(x = X, y = Y), data = tsne_data) +
 
 Dari hasil plot di atas, kita bisa melihat bahwa setiap observasi sudah berhasil terbagi menjadi dua kelompok walaupun memang masih ada beberapa observasi yang tumpang tindih atau berdekatan pada sebuah kelompok yang didominasi oleh kelompok yang berlawanan.
 
-Selain menampilkan hasil clusterin dengan menggunakan plot secara 2 dimensi, kita juga dapat menampilkan hasil clustering dengan menggunakan plot 3 dimensi.
+Selain menampilkan hasil pengelompokan dengan menggunakan plot secara 2 dimensi, kita juga dapat menampilkan hasil clustering dengan menggunakan plot 3 dimensi.
 
 ```{r}
 set.seed(123)
@@ -366,16 +368,24 @@ tsne_data_3d <- tsne_obj_3d$Y %>%
   data.frame() %>%
   setNames(c("X", "Y", "Z")) %>%
   mutate(cluster = factor(pam_fit$clustering))
-
-plot3d(tsne_data_3d, 
-       col=factor(pam_fit$clustering))
-legend3d("topright", 
-         legend = unique(pam_fit$clustering), 
-         pch = 16, 
-         col = unique(pam_fit$clustering), 
-         cex=1, 
-         inset=c(0.02))
 ```
+
+```{r, fig.align='left', fig.width=7}
+tsne_3d <- plot_ly(tsne_data_3d,
+               x = ~X,
+               y = ~Y,
+               z = ~Z,
+               color = ~cluster,
+               colors = c('#BF382A','#0C4B8E'),
+               size = 3)
+
+tsne_3d <- tsne_3d %>% 
+  add_markers()
+
+tsne_3d
+```
+
+Jika kita lihat, plot 3 dimensi bisa memberikan kita gambaran yang lebih detail untuk hasil clustering karena jika kita melihat dari plot 2 dimensi yang ditampilkan sebelumnya hasil pengelompokan untuk masing-masing berlian masih ada yang tumpang tindih. Sedangkan dengan plot 3 dimensi, hasil yang sebelumnya terlihat tumpang tindih ternyata tidak tumpang tindih karena memiliki jarak pada sumbu Z.
 
 # Kesimpulan
 
