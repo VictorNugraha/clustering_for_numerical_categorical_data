@@ -1,5 +1,5 @@
 ---
-title: "Clustering For Both Numerical & Categorical Data"
+title: "Clustering Untuk Data Numerik & Kategorik"
 author: "Victor Nugraha"
 date: "12/27/2021"
 output: 
@@ -31,15 +31,15 @@ knitr::knit_hooks$set(rgl = hook_rgl, webgl = hook_webgl)
 
 # Pendahuluan
 
-<i>Clustering</i> adalah salah satu teknik Machine Learning, yang memiliki kemampuan untuk mengelompokkan kumpulan data yang tidak berlabel. Setiap data yang tidak berlabel nantinya akan diklasifikasikan ke dalam kelompok tertentu dengan konsep, titik data yang berada dalam kelompok yang sama harus memiliki sifat atau fitur yang serupa, sedangkan titik data dalam kelompok yang berbeda harus memiliki sifat atau fitur yang sangat berbeda.
+<i>Clustering</i> adalah salah satu teknik Machine Learning, yang memiliki kemampuan untuk mengelompokkan kumpulan data yang tidak berlabel. Setiap data yang tidak berlabel nantinya akan diklasifikasikan ke dalam kelompok tertentu dimana, titik data yang berada dalam kelompok yang sama akan memiliki sifat atau fitur yang serupa, sedangkan titik data dalam kelompok yang berbeda diharapkan memiliki sifat atau fitur yang sangat berbeda.
 
-Dalam ilmu data, kita dapat menggunakan <i>clustering</i> untuk mendapatkan beberapa wawasan berharga dari data kita dengan melihat hasil pengelompokan yang terjadi. Wawasan yang berharga tersebut bisa kita bawa untuk membantu kita dalam menentukan segmentasi market, <i>social netwrok analysis</i>, dan masih banyak lagi. Di luar semua manfaat yang bisa kita dapatkan dari metode <i>clustering</i>, masih ada sebuah stigma yang menempel terhadap metode <i>clustering</i>. Pada artikel ini nantinya akan membahas metode <i>clustering</i> yang dapat digunakan untuk mengatasi stigma yang menempel terhadap metode <i>clustering</i>. 
+Dalam ilmu data, kita dapat menggunakan <i>clustering</i> untuk mendapatkan beberapa wawasan berharga dari data kita dengan melihat hasil pengelompokan yang terjadi. Informasi yang berharga tersebut bisa kita bawa untuk membantu kita dalam menentukan segmentasi market, <i>social netwrok analysis</i>, dan masih banyak lagi. Di luar semua manfaat yang bisa kita dapatkan dari metode <i>clustering</i>, masih ada sebuah stigma yang menempel terhadap metode <i>clustering</i>. Pada artikel ini nantinya akan membahas metode <i>clustering</i> yang dapat digunakan untuk mengatasi stigma yang menempel terhadap metode <i>clustering</i>. 
 
 ## Stigma
 
-Stigma yang menempel pada <i>clustering</i> adalah <i>clustering</i> hanya bisa digunakan untuk data-data numerik saja. Hal tersebut mungkin bisa terjadi dikarenakan, banyak sekali implementasi atau contoh dari <i>clustering</i> yang hanya menggunakan data numerik saja, sehingga munculah sebuah stigma tersebut.
+Stigma yang menempel pada <i>clustering</i> adalah hanya bisa digunakan untuk data-data numerik. Hal tersebut terjadi karena banyak sekali implementasi atau contoh dari <i>clustering</i> yang hanya menggunakan data numerik.
 
-Sesungguhnya <i>clustering</i> juga bisa digunakan terhadap data-data kategorikal, dan pada kesempatan kali ini kita akan mencoba menggunakan <i>clustering</i> untuk mengelompokan data kategorikal dan data numerik. Tipe algoritma yang akan kita gunakan nantinya bernama <b><i>Partitioning Around Medoids</b></i> dan metode perhitungan jarak yang akan digunakan adalah <i>Gower Distance</i>
+Sesungguhnya <i>clustering</i> juga bisa digunakan terhadap data-data kategorikal, dan pada kesempatan kali ini kita akan mencoba menggunakan <i>clustering</i> untuk mengelompokan data kategorikal dan data numerik. Tipe algoritma yang akan kita gunakan nantinya bernama <b><i>Partitioning Around Medoids</b></i> dan metode perhitungan jarak yang akan digunakan adalah <i>Gower Distance</i>.
 
 ## Partitioning Around Medoids (PAM)/K-Medoids
 
@@ -47,7 +47,7 @@ Algoritma Partitioning Around Medoids(PAM) atau bisa disebut K-Medoids adalah se
 
 Pada metode K-Means, penentuan sebuah objek masuk ke sebuah <i>cluster</i> tertentu berdasarkan perhitungan rata-rata jarak ecluidean. Sedangkan cara kerja metode K-Medoids akan diawali dengan penentuan Medoids (sebuah objek yang letaknya terpusat di dalam suatu cluster). Dari gambar di bawah, kita dapat melihat bagaimana perbedaan antara metode K-Means & K-Medoids dalam menentukan sebuah objek lebih sesuai untuk masuk ke sebuah cluster tertentu.  
 
-```{r}
+```{r, echo=F}
 knitr::include_graphics("image/k-means-and-k-medoids.png")
 ```
 
@@ -65,7 +65,7 @@ Dimana:
 
 Langkah tersebut akan terus diulang sampai nantinya <b>S > 0</b>, yang berarti tidak adanya pergerakan lagi dari Medoid yang dipilih sebagai titik tengah. Dari titik Medoids yang paling optimum itu, akan dicari lagi objek yang menyerupai dari karakteristik Medoids tersebut. Supaya lebih terbayang dengan cara kerja dari metode PAM, kita bisa melihat visualisasi di bawah ini.
 
-```{r}
+```{r, echo=F}
 knitr::include_graphics("image/K-Medoids_Clustering.gif")
 ```
 
@@ -88,7 +88,7 @@ library(Rtsne)
 library(rgl)
 library(plotly)
 
-## Knit
+# Knit
 library(knitr)
 library(rgl)
 ```
@@ -109,6 +109,7 @@ head(diamond)
 Data yang akan kita gunakan adalah data karakteristik berlian yang baru saja selesai diolah, dari data tersebut nantinya akan coba kita kelompokan untuk membuat beberapa segmentasi produk dari setiap berlian tersebut.
 
 Berikut penjelasan mengenai kolom-kolom untuk data yang kita gunakan:
+
 * `carat`: Berat dari berliannya 
 * `cut`: Kualitas dari potongan berliannya (Fair < Good < Very Good < Premium < Ideal)
 * `color`: Kualitas warna dari berlian tersebut (J < I < H < G < F < E < D)
@@ -194,7 +195,7 @@ diamond[which(example == min(example[example != min(example)]),
 ```
 Dari hasil pasangan data di atas, kita bisa melihat bahwa memang data observasi ke 952 dan 951 itu sangat identik, perbedaan yang terdapat pada kedua data di atas adalah panjang dan lebar dari hasil berlian yang diolah dan perbedaan hanya 0.01.
 
-* <i>Contoh pasangan data yang paling identik</i>
+* <i>Contoh pasangan data yang paling tidak identik</i>
 
 ```{r}
 diamond[which(example == max(example[example != max(example)]),
