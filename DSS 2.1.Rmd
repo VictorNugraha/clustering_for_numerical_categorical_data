@@ -31,7 +31,7 @@ knitr::knit_hooks$set(rgl = hook_rgl, webgl = hook_webgl)
 
 # Pendahuluan
 
-<i>Clustering</i> adalah salah satu teknik Machine Learning, yang memiliki kemampuan untuk mengelompokkan kumpulan data yang tidak berlabel. Setiap data yang tidak berlabel nantinya akan diklasifikasikan ke dalam kelompok tertentu dimana, titik data yang berada dalam kelompok yang sama akan memiliki sifat atau fitur yang serupa, sedangkan titik data dalam kelompok yang berbeda diharapkan memiliki sifat atau fitur yang sangat berbeda.
+<i>Clustering</i> adalah salah satu teknik <i>Machine Learning</i>, yang memiliki kemampuan untuk mengelompokkan kumpulan data yang tidak berlabel. Setiap data yang tidak berlabel nantinya akan diklasifikasikan ke dalam kelompok tertentu dimana, titik data yang berada dalam kelompok yang sama akan memiliki sifat atau fitur yang serupa, sedangkan titik data dalam kelompok yang berbeda diharapkan memiliki sifat atau fitur yang sangat berbeda.
 
 Dalam ilmu data, kita dapat menggunakan <i>clustering</i> untuk mendapatkan beberapa wawasan berharga dari data kita dengan melihat hasil pengelompokan yang terjadi. Informasi yang berharga tersebut bisa kita bawa untuk membantu kita dalam menentukan segmentasi market, <i>social netwrok analysis</i>, dan masih banyak lagi. Di luar semua manfaat yang bisa kita dapatkan dari metode <i>clustering</i>, masih ada sebuah stigma yang menempel terhadap metode <i>clustering</i>. Pada artikel ini nantinya akan membahas metode <i>clustering</i> yang dapat digunakan untuk mengatasi stigma yang menempel terhadap metode <i>clustering</i>. 
 
@@ -220,13 +220,13 @@ Dengan metode pertama ini kita akan memvariasikan jumlah kelompok dengan menghit
 
 Dengan bertambahnya jumlah kelompok, nilai WSS akan mulai berkurang (nilai WSS terbesar ketika K = 1). Ketika kita menganalisis grafik kita dapat melihat bahwa grafik akan berubah dengan cepat pada suatu titik dan dengan demikian menciptakan bentuk siku. Dari titik ini, grafik mulai bergerak hampir sejajar dengan sumbu X. Nilai K yang sesuai dengan titik ini adalah nilai K optimal atau jumlah kelompok yang optimal.
 
-```{r}
-# set.seed(123)
-# 
-# fviz_nbclust(x = as.matrix(diamond_gower),
-#              FUNcluster = pam,
-#              method = "wss") +
-#   labs(subtitle = "Elbow Method")
+```{r, eval=FALSE}
+set.seed(123)
+
+fviz_nbclust(x = as.matrix(diamond_gower),
+             FUNcluster = pam,
+             method = "wss") +
+  labs(subtitle = "Elbow Method")
 ```
 
 ```{r, echo = FALSE}
@@ -243,13 +243,13 @@ Metode kedua yang akan dicoba untuk menentukan jumlah kelompok yang optimal adal
 
 Berbeda dengan <i>elbow method</i>, makin bertambahnya jumlah kelompok, nilai hasil perhitungan metode <i>silhouette method</i> tidak pasti akan berkurang. Penentuan nilai kelompok yang optimal akan ditentukan berdasarkan nilai koefisien paling tinggi pada saat membagi keseluruhan observasi ke berapa banyak kelompok. 
 
-```{r}
-# set.seed(123)
-# 
-# fviz_nbclust(x = as.matrix(diamond_gower),
-#              FUNcluster = pam,
-#              method = "silhouette") +
-#   labs(subtitle = "Silhouette Method")
+```{r, eval=FALSE}
+set.seed(123)
+
+fviz_nbclust(x = as.matrix(diamond_gower),
+             FUNcluster = pam,
+             method = "silhouette") +
+  labs(subtitle = "Silhouette Method")
 ```
 
 ```{r, echo = FALSE}
@@ -264,13 +264,13 @@ Metode terakhir yang akan digunakan adalah <i>Gap Statistic Method</i>, metode i
 
 Jika dilihat dari plot di bawah ini, nilai kelompok optimum adalah 10.
  
-```{r}
-# set.seed(123)
-# 
-# fviz_nbclust(x = as.matrix(diamond_gower),
-#              FUNcluster = pam,
-#              method = "gap_stat") +
-#   labs(subtitle = "Gap Statistic Method")
+```{r, eval=FALSE}
+set.seed(123)
+
+fviz_nbclust(x = as.matrix(diamond_gower),
+             FUNcluster = pam,
+             method = "gap_stat") +
+  labs(subtitle = "Gap Statistic Method")
 ```
  
 ```{r, echo = FALSE}
@@ -351,7 +351,10 @@ tsne_data <- tsne_obj$Y %>%
 
 ggplot(aes(x = X, y = Y), data = tsne_data) +
   geom_point(aes(color = cluster)) +
-  theme_bw()
+  labs(title = "Visualisasi Clustering 2D") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title = element_blank())
 ```
 
 Dari hasil plot di atas, kita bisa melihat bahwa setiap observasi sudah berhasil terbagi menjadi dua kelompok walaupun memang masih ada beberapa observasi yang tumpang tindih atau berdekatan pada sebuah kelompok yang didominasi oleh kelompok yang berlawanan.
@@ -368,7 +371,8 @@ tsne_obj_3d <- Rtsne(X = diamond_gower,
 tsne_data_3d <- tsne_obj_3d$Y %>%
   data.frame() %>%
   setNames(c("X", "Y", "Z")) %>%
-  mutate(cluster = factor(pam_fit$clustering))
+  mutate(cluster = factor(pam_fit$clustering),
+         Observasi = row_number())
 ```
 
 ```{r, fig.align='left', fig.width=7}
@@ -378,23 +382,29 @@ tsne_3d <- plot_ly(tsne_data_3d,
                z = ~Z,
                color = ~cluster,
                colors = c('#BF382A','#0C4B8E'),
-               size = 3)
+               size = 3,
+               text = ~paste("Product No:", Observasi),
+               hoverinfo = 'text') %>% 
+  layout(title = "Visualisasi Clustering 3D",
+         scene = list(xaxis = list(title = ''),
+                      yaxis = list(title = ''),
+                      zaxis = list(title = '')))
 
 tsne_3d <- tsne_3d %>% 
-  add_markers()
-
-tsne_3d
+  add_markers() 
+  
+tsne_3d 
 ```
 
 Jika kita lihat, plot 3 dimensi bisa memberikan kita gambaran yang lebih detail untuk hasil clustering karena jika kita melihat dari plot 2 dimensi yang ditampilkan sebelumnya hasil pengelompokan untuk masing-masing berlian masih ada yang tumpang tindih. Sedangkan dengan plot 3 dimensi, hasil yang sebelumnya terlihat tumpang tindih ternyata tidak tumpang tindih karena memiliki jarak pada sumbu Z.
 
 # Kesimpulan
 
-Di sini kita bisa menarik kesimpulan bahwa <i>unsupervised machine learning</i> bisa digunakan untuk melakukan pengelompokan tidak hanya untuk data numerikal saja melainkan bisa juga digunakan untuk data kategorikal. Walaupun memang ada beberapa pendekatan yang berbeda dalam melakukan pengelompokan terutama metode yang digunakan dalam melakukan perhitungan jarak antara setiap observasi data, akan tetapi secara alur kerja bisa dibilang tidak ada perbedaan sama sekali.
+Di sini kita bisa menarik kesimpulan bahwa <i>clustering</i> bisa digunakan untuk melakukan pengelompokan tidak hanya untuk data numerikal saja melainkan bisa juga digunakan untuk data kategorikal. Walaupun memang ada beberapa pendekatan yang berbeda dalam melakukan pengelompokan terutama metode yang digunakan dalam melakukan perhitungan jarak antara setiap observasi data, akan tetapi secara alur kerja bisa dibilang tidak ada perbedaan sama sekali.
 
-Dalam kasus ini, implementasi dari <i>unsupervised machine learning</i> sangat berguna untuk sebuah perusahaan berlian yang baru berdiri dalam menentukan segmentasi produk karena <i>unsupervised machine learning</i> akan membantu kita dalam menentukan jumlah segmentasi yang paling optimum dan akan mengelompokan setiap hasil olahan berlian ke setiap kelompok yang memiliki karakteristik yang sama. 
+Dalam kasus ini, implementasi dari <i>clustering</i> sangat berguna untuk sebuah perusahaan berlian yang baru berdiri dalam menentukan segmentasi produk karena <i>clustering</i> akan membantu kita dalam menentukan jumlah segmentasi yang paling optimum dan akan mengelompokan setiap hasil olahan berlian ke setiap kelompok yang memiliki karakteristik yang sama. 
 
-<i>Disclaimer</i>, metode <i>unsupervised machine learning</i> bukanlah jawaban mutlak ketika kita menghadapi data yang tidak berlabel atau ketika kita sedang mencari sebuah karakteristik yang sama dalam setiap observasi data kita. Jika memang dirasa kita tidak mendapatkan jawaban yang memuaskan dari metode <i>unsupervised machine learning</i>, setidaknya kita bisa memanfaatkan metode <i>unsupervised machine learning</i> sebagai intuisi awal dalam menghadapi permasalahan tersebut.
+<i>Disclaimer</i>, metode <i>clustering</i> bukanlah jawaban mutlak ketika kita menghadapi data yang tidak berlabel atau ketika kita sedang mencari sebuah karakteristik yang sama dalam setiap observasi data kita. Jika memang dirasa kita tidak mendapatkan jawaban yang memuaskan dari metode <i>clustering</i>, setidaknya kita bisa memanfaatkan metode <i>clustering</i> sebagai intuisi awal dalam menghadapi permasalahan tersebut.
 
 Happy Clustering!
 
