@@ -38,7 +38,7 @@ Pada metode K-Means, penentuan sebuah objek masuk ke sebuah cluster tertentu ber
 
 Penentuan Medoids itu tidak dilakukan hanya sekali, melainkan berulang sampai Medoids itu tidak bisa bergerak lagi. Mengapa tidak hanya sekali, dikarenakan peletakan Medoids belum tentu posisi paling optimal. 
 
-## Gower Distance
+### Gower Distance
 
 Pilihan paling populer untuk menghitung jarak adalah Euclidean, namun metode tersebut hanya berlaku untuk data numerik saja, oleh karena itu metode Euclidean tidak berlaku di sini. Ada satu metode yang dapat kita gunakan untuk kasus yang memiliki data campuran (data numerik dan data kategorikal), metode tersebut dinamakan Gower Distance.
 
